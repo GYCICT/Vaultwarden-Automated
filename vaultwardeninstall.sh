@@ -1,18 +1,17 @@
 #!/bin/bash
-apt-get install ranger
-apt-get install net-tools
-apt-get update
-apt-get install apt-transport-https
-apt-get install curl
-apt-get install ca-certificates
-apt-get install gnupg
-apt-get install lsb-release
+apt-get -y install ranger \
+net-tools \
+apt-transport-https \
+curl \
+ca-certificates \
+gnupg \
+lsb-release \
 curl -fsSL https://download.docker.com/linux/debian/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo \
 "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/debian \
 $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-apt-get update
-apt-get install docker-ce docker-ce-cli containerd.io
+apt-get -y update
+apt-get -y install docker-ce docker-ce-cli containerd.io
 docker volume create portainer_data
 docker run -d -p 8000:8000 -p 9000:9000 --name=portainer --restart=no -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce
 curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
@@ -22,6 +21,7 @@ cd /opt/nginxproxymanager
 curl -L "https://raw.githubusercontent.com/GYCICT/Vaultwarden-Automated/master/docker-compose.yml" --output docker-compose.yml
 docker-compose up -d
 cd
-docker pull vaultwarden/server:latest
 systemctl stop apache2
+docker pull vaultwarden/server:latest
+docker run -d --name vaultwarden --restart=always -v /vw-data/:/data/ -p 80:80 vaultwarden/server:latest
 echo "Complete - Proceed with other steps."
