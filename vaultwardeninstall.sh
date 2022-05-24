@@ -49,7 +49,7 @@ cd
 
 # Vaultwarden (https://github.com/dani-garcia/vaultwarden)
 docker pull vaultwarden/server:latest
-docker run -d --name vaultwarden --restart=always -v /vw-data/:/data/ -p 80:80 vaultwarden/server:latest
+docker run -d --name vaultwarden --restart=always -v /vw-data/:/data/ vaultwarden/server:latest
 clear
 echo "Complete - Proceed with other steps."
 sleep 0.5 
